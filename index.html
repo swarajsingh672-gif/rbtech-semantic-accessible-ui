@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessible Workspace Layout</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #1d4ed8;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 8px 14px;
+      z-index: 1000;
+    }
+    .skip-link:focus {
+      left: 12px;
+      top: 12px;
+    }
+    :focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 16px;
+    }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a:hover { text-decoration: underline; }
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: calc(100vh - 120px);
+    }
+    aside {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 16px;
+    }
+    main {
+      padding: 24px;
+      display: grid;
+      gap: 24px;
+    }
+    section, article {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+    }
+    th { background: #f1f5f9; }
+    fieldset {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .field {
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    input, select, textarea {
+      padding: 8px 10px;
+      border: 1px solid #64748b;
+      border-radius: 6px;
+      font: inherit;
+    }
+    button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+    dialog {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 440px;
+    }
+    dialog::backdrop {
+      background: rgba(15, 23, 42, 0.55);
+    }
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 14px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header>
+    <div>
+      <strong>Accessible Portal</strong>
+    </div>
+    <nav aria-label="Primary navigation">
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#records">Records</a></li>
+        <li><a href="#feedback-form">Feedback Form</a></li>
+      </ul>
+    </nav>
+    <button type="button" id="open-modal-btn" aria-haspopup="dialog" aria-controls="info-dialog">
+      Open Dialog
+    </button>
+  </header>
+
+  <div class="layout">
+    <aside aria-label="Sidebar navigation">
+      <h2>Quick Links</h2>
+      <ul>
+        <li><a href="#overview">Dashboard Summary</a></li>
+        <li><a href="#records">Task Table</a></li>
+        <li><a href="#feedback-form">Submit Details</a></li>
+      </ul>
+    </aside>
+
+    <main id="main-content" tabindex="-1">
+      <section id="overview" aria-labelledby="overview-heading">
+        <h1 id="overview-heading">Semantic HTML5 &amp; Accessible Layout</h1>
+        <article>
+          <h2>Component Architecture Overview</h2>
+          <p>
+            This layout uses semantic landmarks, accessible tables, native modal dialogs,
+            and labeled form controls with clear validation attributes.
+          </p>
+        </article>
+      </section>
+
+      <section id="records" aria-labelledby="records-heading">
+        <h2 id="records-heading">Module Status Table</h2>
+        <table>
+          <caption>Current accessibility and component checklist</caption>
+          <thead>
+            <tr>
+              <th scope="col">Module</th>
+              <th scope="col">Owner</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Landmark Layout</td>
+              <td>Frontend</td>
+              <td>Ready</td>
+            </tr>
+            <tr>
+              <td>Accessible Form</td>
+              <td>Frontend</td>
+              <td>Validated</td>
+            </tr>
+            <tr>
+              <td>Modal Dialog</td>
+              <td>Frontend</td>
+              <td>Interactive</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="feedback-form" aria-labelledby="form-heading">
+        <h2 id="form-heading">Accessible Request Form</h2>
+        <form id="accessible-form" novalidate>
+          <fieldset>
+            <legend>Contact Details</legend>
+            <div class="field">
+              <label for="full-name">Full Name *</label>
+              <input
+                id="full-name"
+                name="fullName"
+                type="text"
+                required
+                minlength="2"
+                autocomplete="name"
+                aria-describedby="name-help"
+              />
+              <small id="name-help">Enter at least 2 characters.</small>
+            </div>
+
+            <div class="field">
+              <label for="email-input">Email Address *</label>
+              <input
+                id="email-input"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+              />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Preferences</legend>
+            <div class="field">
+              <label for="topic-select">Topic *</label>
+              <select id="topic-select" name="topic" required>
+                <option value="">Select a topic</option>
+                <option value="accessibility">Accessibility</option>
+                <option value="architecture">Architecture</option>
+                <option value="forms">Forms &amp; Validation</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="notes-area">Notes</label>
+              <textarea id="notes-area" name="notes" rows="3" aria-label="Additional notes"></textarea>
+            </div>
+          </fieldset>
+
+          <p id="form-status" role="status" aria-live="polite"></p>
+          <button type="submit">Submit Form</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="info-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
+    <h2 id="dialog-title">Accessibility Guidelines</h2>
+    <p id="dialog-desc">
+      Use native landmarks, visible focus outlines, proper labels, and keyboard-accessible controls.
+    </p>
+    <button type="button" class="secondary" id="close-modal-btn">Close</button>
+  </dialog>
+
+  <footer>
+    <p>&copy; 2026 Accessible Component Architecture</p>
+  </footer>
+
+  <script>
+    const dialog = document.getElementById("info-dialog");
+    const openBtn = document.getElementById("open-modal-btn");
+    const closeBtn = document.getElementById("close-modal-btn");
+    const form = document.getElementById("accessible-form");
+    const statusEl = document.getElementById("form-status");
+
+    openBtn.addEventListener("click", () => {
+      if (typeof dialog.showModal === "function") {
+        dialog.showModal();
+      }
+    });
+
+    closeBtn.addEventListener("click", () => {
+      dialog.close();
+      openBtn.focus();
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        statusEl.textContent = "Please complete all required fields properly.";
+        return;
+      }
+      statusEl.textContent = "Form validated and submitted successfully.";
+      form.reset();
+    });
+  </script>
+</body>
+</html>
